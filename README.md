@@ -35,11 +35,11 @@ La API expone un endpoint simple que acepta texto en formato JSON y responde con
 
 ```
 app/
-│── main.py # Definición de la API y endpoints
-│── model.py # Entrenamiento y predicción del modelo
-│── preprocessing.py # Limpieza y normalización de texto
+│── main.py             # Definición de la API y endpoints
+│── model.py            # Entrenamiento y predicción del modelo
+│── preprocessing.py    # Limpieza y normalización de texto
 data/
-│── reviews.csv # Dataset de entrenamiento
+│── reviews.csv         # Dataset de entrenamiento
 ```
 
 ---
