@@ -12,26 +12,20 @@ class SentimentModel:
         self._train()
 
     def _train(self):
-        # Cargar dataset
         df = pd.read_csv("data/reviews.csv")
 
-        # Preprocesamiento
         df["clean_text"] = df["message"].apply(clean_text)
 
         X = df["clean_text"]
         y = df["sentiment"]
 
-        # Vectorización
         X_vec = self.vectorizer.fit_transform(X)
 
-        # Entrenamiento
         self.model.fit(X_vec, y)
 
     def predict(self, text: str):
-        # Vectorizar el texto nuevo
         text_vec = self.vectorizer.transform([text])
 
-        # Probabilidad clase positiva
         proba = self.model.predict_proba(text_vec)[0]
         classes = self.model.classes_
 
