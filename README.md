@@ -31,6 +31,16 @@ La API expone un endpoint simple que acepta texto en formato JSON y responde con
 
 ---
 
+## Decisiones tomadas
+
+- Se utilizó **FastAPI** porque permite crear APIs de forma simple, es rápido y genera automáticamente la documentación, lo cual facilita las pruebas.
+- Para el análisis de texto se usó **TF-IDF**, ya que es una técnica sencilla y efectiva para convertir texto en datos numéricos que un modelo pueda entender.
+- El modelo elegido fue **Logistic Regression**, por ser liviano, fácil de entrenar y suficiente para este tipo de problema.
+- El puntaje (`score`) representa la probabilidad de que el texto tenga un sentimiento positivo.
+- Se definieron thresholds personalizados para clasificar el resultado como **positivo**, **negativo** o **neutral**, con el objetivo de evitar clasificaciones forzadas cuando el modelo no está seguro.
+
+---
+
 ## Estructura del proyecto
 
 ```
@@ -87,16 +97,20 @@ POST /analyze
 
 Ejemplo de request
 
+```json
 {
   "text": "¡Hola equipo! Quería compartir mi experiencia con el proceso de onboarding. La verdad es que fue mucho más fácil de lo que me imaginaba. Desde el primer día, me sentí muy bienvenido y las herramientas que proporcionaron fueron super útiles. Las sesiones de capacitación estaban bien estructuradas y los tutores eran muy pacientes; respondieron a todas mis dudas sin dudarlo. Además, la comunicación fue clara y siempre estuve al tanto de lo que seguía. Siento que tengo una buena base para empezar en este nuevo rol. Creo que hicieron un gran trabajo al diseñar todo, ¡mil gracias!"
 }
+```
 
 Ejemplo de response
 
+```json
 {
   "sentiment": "positivo",
   "score": 0.9498749406711353
 }
+```
 
 ## Notas
 
