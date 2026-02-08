@@ -1,22 +1,35 @@
-import pandas as pd
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+from app.model import SentimentModel
+from app.preprocessing import clean_text
 
 
-def load_reviews(path: str) -> pd.DataFrame:
-    """
-    Probando cargar las reviews.
-    """
-    df = pd.read_csv(path, encoding="utf-8")
-    return df
+app = FastAPI(
+    title="Smart Feedback API",
+    description="API para análisis de sentimiento de feedback de usuarios",
+    version="1.0.0"
+)
 
 
-if __name__ == "__main__":
-    df = load_reviews("data/reviews.csv")
+sentiment_model = SentimentModel()
 
-    print("Columnas del dataset:")
-    print(df.columns)
 
-    print("\nPrimeros 5 registros:")
-    print(df.head())
+class AnalyzeRequest(BaseModel):
+    text: str
 
-    print("\nCantidad de reviews por sentimiento:")
-    print(df["sentiment"].value_counts())
+
+class AnalyzeResponse(BaseModel):
+    sentiment: str
+    score: float
+
+
+@app.post("/analyze", response_model=AnalyzeResponse)
+def analyze_sentiment(request: AnalyzeRequest):
+    if not request.text.strip():
+        raise HTTPException(status_code=400, detail="El texto no puede estar vacío")
+
+    clean = clean_text(request.text)
+    result = sentiment_model.predict(clean)
+
+    return result
