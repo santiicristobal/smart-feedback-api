@@ -32,7 +32,11 @@ class SentimentModel:
         text_vec = self.vectorizer.transform([text])
 
         # Probabilidad clase positiva
-        score = self.model.predict_proba(text_vec)[0][1]
+        proba = self.model.predict_proba(text_vec)[0]
+        classes = self.model.classes_
+
+        positive_index = list(classes).index("positivo")
+        score = proba[positive_index]
 
         if score > 0.6:
             sentiment = "positivo"
