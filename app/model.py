@@ -24,22 +24,22 @@ class SentimentModel:
         self.model.fit(X_vec, y)
 
     def predict(self, text: str):
+        # Vectorizar el texto
         text_vec = self.vectorizer.transform([text])
 
-        proba = self.model.predict_proba(text_vec)[0]
-        classes = self.model.classes_
+        # Obtener probabilidades para cada clase
+        probabilities = self.model.predict_proba(text_vec)[0]
 
-        positive_index = list(classes).index("positivo")
-        score = proba[positive_index]
+        # Obtener el índice de la clase con mayor probabilidad
+        best_index = probabilities.argmax()
 
-        if score > 0.6:
-            sentiment = "positivo"
-        elif score < 0.4:
-            sentiment = "negativo"
-        else:
-            sentiment = "neutral"
+        # Obtener el nombre de la clase
+        sentiment = self.model.classes_[best_index]
+
+        # Obtener la confianza del modelo para esa clase
+        score = probabilities[best_index]
 
         return {
             "sentiment": sentiment,
             "score": float(score)
-        }
+    }
