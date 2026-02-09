@@ -37,7 +37,7 @@ La API expone un endpoint simple que acepta texto en formato JSON y responde con
 - Para el análisis de texto se usó **TF-IDF**, ya que es una técnica sencilla y efectiva para convertir texto en datos numéricos que un modelo pueda entender.
 - El modelo elegido fue **Logistic Regression**, por ser liviano, fácil de entrenar y suficiente para este tipo de problema.
 - El puntaje (`score`) representa la probabilidad de que el texto tenga un sentimiento positivo.
-- Se definieron thresholds personalizados para clasificar el resultado como **positivo**, **negativo** o **neutral**, con el objetivo de evitar clasificaciones forzadas cuando el modelo no está seguro.
+- El score representa la confianza del modelo en la clase predicha, basada en las probabilidades aprendidas durante el entrenamiento.
 
 ---
 
@@ -56,14 +56,11 @@ data/
 
 ## Lógica de clasificación
 
-El modelo devuelve una probabilidad asociada al sentimiento positivo.  
-En base a ese valor, el resultado se clasifica de la siguiente manera:
+El modelo devuelve una probabilidad para cada una de las clases posibles
+(positivo, neutral y negativo).
 
-- **score > 0.6** → positivo  
-- **score < 0.4** → negativo  
-- **caso contrario** → neutral  
-
-El puntaje representa la confianza del modelo respecto al sentimiento positivo.
+El sentimiento final se determina eligiendo la clase con mayor probabilidad.
+El valor `score` representa la confianza del modelo en esa predicción.
 
 ---
 
